@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Fix YouTube Mute Caption Bug",
+  "version": "1.0",
+  "description": "Prevents YouTube subtitles from shrinking when pressing the mute key.",
+  "permissions": [
+    "scripting"
+  ],
+  "host_permissions": [
+    "*://www.youtube.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://www.youtube.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_start"
+    }
+  ]
+}
