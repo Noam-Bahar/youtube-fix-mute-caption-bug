@@ -2,7 +2,29 @@
 
 // @ts-check
 
-document.addEventListener("keydown", (event) => {
+chrome.storage.sync.get("enabled", (data) => {
+  handleToggle(data.enabled);
+});
+
+chrome.storage.onChanged.addListener((changes, namespace) => {
+  if (namespace === "sync" && changes.enabled) {
+    handleToggle(changes.enabled.newValue);
+  }
+});
+
+function handleToggle(checked) {
+  if (checked) {
+    document.addEventListener("keydown", antiShrinkinatorEventListener, true);
+  } else {
+    document.removeEventListener(
+      "keydown",
+      antiShrinkinatorEventListener,
+      true
+    );
+  }
+}
+
+function antiShrinkinatorEventListener(event) {
   const isMuteKey = event.key === "AudioVolumeMute" || event.keyCode === 173;
 
   if (isMuteKey) {
@@ -15,4 +37,4 @@ document.addEventListener("keydown", (event) => {
 
     event.stopPropagation();
   }
-}, true);
+}
